@@ -13,11 +13,13 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
         private Node left;
         private Node right;
         private int size;
+        private int height;
 
         public Node(Key key, Value value) {
             this.key = key;
             this.value = value;
             size = 1;
+            height = 0;
         }
     }
 
@@ -30,6 +32,39 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
             return 0;
         }
         return node.size;
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node node) {
+        if (node == null) {
+            return 0;
+        }
+
+        return node.height;
+    }
+
+    public boolean isBalanced() {
+        if (isEmpty()) {
+            throw new IllegalArgumentException("Tree is empty");
+        }
+
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node node) {
+
+        if (node == null) {
+            return true;
+        }
+
+        int leftHeight = height(node.left);
+        int rightHeight = height(node.right);
+
+        return Math.abs(leftHeight - rightHeight) <= 1 && isBalanced(node.left) && isBalanced(node.right) ;
+
     }
 
     public boolean isEmpty() {
@@ -90,6 +125,7 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
         }
 
         node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left) , height(node.right)) + 1;
         return node;
     }
 
@@ -125,6 +161,7 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
 
         node.left = deleteMin(node.left);
         node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left) , height(node.right)) + 1;
         return node;
     }
 
@@ -157,8 +194,9 @@ public class MyTreeMap<Key extends Comparable<Key>, Value> {
             node.right = deleteMin(temp.right);
             node.left = temp.left;
         }
-            node.size = size(node.left) + size(node.right) + 1;
-            return node;
+        node.size = size(node.left) + size(node.right) + 1;
+        node.height = Math.max(height(node.left) , height(node.right)) + 1;
+        return node;
 
 
     }
