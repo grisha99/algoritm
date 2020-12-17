@@ -72,6 +72,23 @@ public class ChainHashMap<Key, Value> {
         return null;
     }
 
+    public Value remove(Key key) {
+        checkKeyNotNull(key);
+        int i = hash(key);
+        Iterator<Node> iter = st[i].iterator();
+        Node currentNode;
+        while (iter.hasNext()) {
+            currentNode = iter.next();
+            if (key.equals(currentNode.key)) {
+                Value tmp = currentNode.value;
+                iter.remove();
+                size--;
+                return tmp;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

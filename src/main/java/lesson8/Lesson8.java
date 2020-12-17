@@ -16,7 +16,7 @@ public class Lesson8 {
 
         System.out.println(chm);
 
-//        System.out.println("remove - " + chm.remove(51));
+        System.out.println("remove - " + chm.remove(51));
 
         System.out.println(chm);
 
